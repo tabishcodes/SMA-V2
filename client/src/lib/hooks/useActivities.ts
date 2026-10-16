@@ -22,12 +22,13 @@ export const useActivities = (id?: string) => {
             const response = await agent.get<Activity>(`/activities/${id}`);
             return response.data;
         },
-        enabled: !!id // Only run this query if id is provided
+        // Only run if id is truthy and not the literal word "activityId"
+        enabled: !!id && id !== 'activityId'
     });
 
     const updateActivity = useMutation({
         mutationFn: async (activity: Activity) => {
-            const response = await agent.post('/activities', activity);
+            const response = await agent.put('/activities', activity);
             return response.data;
         },
         onSuccess: async () => {
