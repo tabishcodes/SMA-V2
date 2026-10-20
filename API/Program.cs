@@ -1,13 +1,19 @@
 using Application.Activities.Queries;
 using Application.Core;
+using FluentValidation;
+using FluentValidation.AspNetCore; // 1. Add this namespace
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
+// 2. Enable automatic validation and register the validators
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Application.Activities.Validators.BaseActivityValidator>();
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));

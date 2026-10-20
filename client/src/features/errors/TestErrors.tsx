@@ -7,21 +7,16 @@ export default function TestErrors() {
     const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
     const { mutate } = useMutation({
-        mutationFn:
-            async ({ path, method = 'get' }:
-                { path: string; method: string }) => {
-                if (method === 'post') {
-                    await agent.post(path, {});
-                } else {
-                    await agent.get(path);
-                }
-            }, onError: (err) => {
-                if (Array.isArray(err)) {
-                    setValidationErrors(err);
-                } else {
-                    setValidationErrors([]);
-                }
-            },
+        mutationFn: async ({ path, method = 'get' }: { path: string; method: string }) => {
+            if (method === 'post') await agent.post(path, {});
+            else await agent.get(path);
+        }, onError: (err) => {
+            if (Array.isArray(err)) {
+                setValidationErrors(err);
+            } else {
+                setValidationErrors([]);
+            }
+        },
     });
 
     const handleError = (path: string, method = 'get') => {
@@ -50,12 +45,12 @@ export default function TestErrors() {
                 </Button>
             </ButtonGroup>
 
+            {/* Render the validation messages on screen */}
             {validationErrors.map((err, i) => (
-                <Alert key={i} severity='error'>
+                <Alert key={i} severity="error">
                     {err}
                 </Alert>
-            ))    
-            }
+            ))}
         </>
     );
 }
