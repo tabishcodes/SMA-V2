@@ -1,5 +1,9 @@
 {
   "devDependencies": {
     "vite-plugin-mkcert": "^1.17.8"
+  },
+  "dependencies": {
+    "@mui/x-date-pickers": "^9.16.0",
+    "dayjs": "^1.11.23"
   }
 }
